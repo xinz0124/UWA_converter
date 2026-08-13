@@ -75,6 +75,90 @@ static double at(json_object *a, int i) {
     return json_object_get_double(json_object_array_get_idx(a, i));
 }
 
+static bool numericArray(json_object *a, size_t length) {
+    if (!a || json_object_get_type(a) != json_type_array ||
+        json_object_array_length(a) != length)
+        return false;
+    for (size_t i = 0; i < length; i++) {
+        auto type = json_object_get_type(json_object_array_get_idx(a, i));
+        if (type != json_type_int && type != json_type_double)
+            return false;
+    }
+    return true;
+}
+
+static json_object *matrixToQuaternion(json_object *matrix) {
+    const double m00 = at(matrix, 0), m01 = at(matrix, 1), m02 = at(matrix, 2);
+    const double m10 = at(matrix, 3), m11 = at(matrix, 4), m12 = at(matrix, 5);
+    const double m20 = at(matrix, 6), m21 = at(matrix, 7), m22 = at(matrix, 8);
+    double x, y, z, w;
+    const double trace = m00 + m11 + m22;
+    if (trace > 0) {
+        const double s = 2 * std::sqrt(trace + 1);
+        w = s / 4;
+        x = (m21 - m12) / s;
+        y = (m02 - m20) / s;
+        z = (m10 - m01) / s;
+    } else if (m00 > m11 && m00 > m22) {
+        const double s = 2 * std::sqrt(1 + m00 - m11 - m22);
+        w = (m21 - m12) / s;
+        x = s / 4;
+        y = (m01 + m10) / s;
+        z = (m02 + m20) / s;
+    } else if (m11 > m22) {
+        const double s = 2 * std::sqrt(1 + m11 - m00 - m22);
+        w = (m02 - m20) / s;
+        x = (m01 + m10) / s;
+        y = s / 4;
+        z = (m12 + m21) / s;
+    } else {
+        const double s = 2 * std::sqrt(1 + m22 - m00 - m11);
+        w = (m10 - m01) / s;
+        x = (m02 + m20) / s;
+        y = (m12 + m21) / s;
+        z = s / 4;
+    }
+    const double length = std::sqrt(x * x + y * y + z * z + w * w);
+    auto *result = json_object_new_array();
+    for (double value : {x / length, y / length, z / length, w / length})
+        json_object_array_add(result, num(value));
+    return result;
+}
+
+static json_object *quaternionToMatrix(json_object *quaternion) {
+    double x = at(quaternion, 0), y = at(quaternion, 1), z = at(quaternion, 2),
+           w = at(quaternion, 3);
+    const double length = std::sqrt(x * x + y * y + z * z + w * w);
+    if (length > 0)
+        x /= length, y /= length, z /= length, w /= length;
+    else
+        x = y = z = 0, w = 1;
+    const double values[] = {
+        1 - 2 * (y * y + z * z), 2 * (x * y - z * w),     2 * (x * z + y * w),
+        2 * (x * y + z * w),     1 - 2 * (x * x + z * z), 2 * (y * z - x * w),
+        2 * (x * z - y * w),     2 * (y * z + x * w),     1 - 2 * (x * x + y * y)};
+    auto *result = json_object_new_array();
+    for (double value : values)
+        json_object_array_add(result, num(std::abs(value) < 1e-15 ? 0 : value));
+    return result;
+}
+
+static json_object *identityMatrix() {
+    auto *result = json_object_new_array();
+    for (int i = 0; i < 9; i++)
+        json_object_array_add(result, num(i % 4 == 0));
+    return result;
+}
+
+static bool isIdentityMatrix(json_object *matrix) {
+    if (!numericArray(matrix, 9))
+        return false;
+    for (int i = 0; i < 9; i++)
+        if (std::abs(at(matrix, i) - (i % 4 == 0 ? 1.0 : 0.0)) > 1e-12)
+            return false;
+    return true;
+}
+
 static void attributes(json_object *root, bool to10) {
     auto *meshes = get(root, "meshes");
     if (!meshes)
@@ -155,6 +239,8 @@ static void cameras(json_object *root, bool to10) {
     auto *nodes = get(root, "nodes");
     if (!nodes)
         return;
+    auto *modelNode = json_object_array_length(nodes) ? json_object_array_get_idx(nodes, 0)
+                                                       : nullptr;
     constexpr double pi = 3.14159265358979323846;
     for (size_t i = 0; i < json_object_array_length(nodes); i++) {
         auto *n = json_object_array_get_idx(nodes, i);
@@ -207,6 +293,9 @@ static void cameras(json_object *root, bool to10) {
                 json_object_object_add(mode, "allocentricSixDof", six);
                 json_object_array_add(modes, mode);
                 json_object_object_add(m, "modes", modes);
+                auto *gravity = get(v, "gravityCoordinateSystem");
+                if (modelNode && numericArray(gravity, 9) && !isIdentityMatrix(gravity))
+                    json_object_object_add(modelNode, "rotation", matrixToQuaternion(gravity));
                 json_object_object_del(e, "UWA_viewing_parameters");
                 json_object_object_add(e, "UWA_viewing_constraints", m);
             }
@@ -249,9 +338,9 @@ static void cameras(json_object *root, bool to10) {
                         json_object_get(x);
                         json_object_object_add(o, k, x);
                     }
-                auto *g = json_object_new_array();
-                for (int q = 0; q < 9; q++)
-                    json_object_array_add(g, num(q % 4 == 0));
+                auto *rotation = modelNode ? get(modelNode, "rotation") : nullptr;
+                auto *g = numericArray(rotation, 4) ? quaternionToMatrix(rotation)
+                                                    : identityMatrix();
                 json_object_object_add(o, "gravityCoordinateSystem", g);
                 if (auto *b = get(six, "targetBoundingBox")) {
                     auto *c = get(b, "center"), *s = get(b, "size");
@@ -269,6 +358,8 @@ static void cameras(json_object *root, bool to10) {
                 }
                 json_object_object_del(e, "UWA_viewing_constraints");
                 json_object_object_add(e, "UWA_viewing_parameters", o);
+                if (modelNode && numericArray(rotation, 4))
+                    json_object_object_del(modelNode, "rotation");
             }
             json_object_object_del(e, "UWA_user_camera_label");
         }
