@@ -1,0 +1,3 @@
+/Users/xinz/Desktop/ONE/work/project/Huawei/格式转换/build/CMakeFiles/gs_format_converter.dir
+/Users/xinz/Desktop/ONE/work/project/Huawei/格式转换/build/CMakeFiles/edit_cache.dir
+/Users/xinz/Desktop/ONE/work/project/Huawei/格式转换/build/CMakeFiles/rebuild_cache.dir
