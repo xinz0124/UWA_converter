@@ -1,0 +1,10 @@
+# Build and generated test artifacts
+/build/
+/test_output/
+
+# Generated inspection data and local executable
+/gs_format_converter算法流程.pptx.inspect.ndjson
+/gs_format_converter
+
+# Local task notes
+/task.md
