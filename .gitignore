@@ -8,3 +8,8 @@
 
 # Local task notes
 /task.md
+
+# macOS and local presentation workspaces
+.DS_Store
+/.pptx-work/
+/.ppt_build/

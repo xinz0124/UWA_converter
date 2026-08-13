@@ -7,6 +7,17 @@
 
 压缩码流以零补齐至四字节边界，程序同时更新 `bufferView 0.byteLength`、后续 `bufferView.byteOffset` 和 `buffers[0].byteLength`。程序不重新计算 accessor 点数。
 
+## 项目结构
+
+```text
+.
+├── CMakeLists.txt
+├── gs_format_converter.cpp
+├── thirdparty/cJSON/       # cJSON Git submodule（v1.7.19）
+├── version0.4/             # 0.4 样例及压缩码流
+└── version1.0/             # 1.0 样例及压缩码流
+```
+
 ## 编译
 
 依赖 CMake 3.16 或更高版本和 C++17。`cJSON` 已作为 Git submodule 固定在
@@ -25,16 +36,16 @@ cd UWA_converter
 git submodule update --init --recursive
 ```
 
-然后使用 CMake 编译：
+然后使用 CMake 编译（Linux 和 macOS 均适用）：
 
 ```bash
-mkdir -p build
-cd build
-cmake ..
-make -j
+cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+cmake --build build -j
 ```
 
 编译完成后，可执行文件位于 `build/gs_format_converter`。如需重新配置，可删除 `build` 目录后重复上述步骤。
+
+> 如果 CMake 提示 `thirdparty/cJSON` 中缺少 `CMakeLists.txt`，说明子模块尚未初始化，请执行 `git submodule update --init --recursive`。
 
 ## 使用
 
