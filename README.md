@@ -9,7 +9,23 @@
 
 ## 编译
 
-依赖 CMake 3.16 或更高版本、C++17 和 `json-c`。使用 CMake 生成 Makefile，再用 `make` 编译：
+依赖 CMake 3.16 或更高版本和 C++17。`cJSON` 已作为 Git submodule 固定在
+`thirdparty/cJSON`，无需在系统中另行安装。
+
+首次克隆仓库时请一并初始化子模块：
+
+```bash
+git clone --recurse-submodules https://github.com/xinz0124/UWA_converter.git
+cd UWA_converter
+```
+
+如果已经克隆过仓库，则执行：
+
+```bash
+git submodule update --init --recursive
+```
+
+然后使用 CMake 编译：
 
 ```bash
 mkdir -p build

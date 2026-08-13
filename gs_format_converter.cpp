@@ -1,4 +1,4 @@
-#include <json-c/json.h>
+#include <cJSON.h>
 #include <cmath>
 #include <cstdint>
 #include <fstream>
@@ -8,6 +8,50 @@
 #include <vector>
 
 using Bytes = std::vector<uint8_t>;
+using json_object = cJSON;
+
+static size_t json_object_array_length(const json_object *a) {
+    return a ? static_cast<size_t>(cJSON_GetArraySize(a)) : 0;
+}
+static json_object *json_object_array_get_idx(const json_object *a, size_t i) {
+    return a ? cJSON_GetArrayItem(a, static_cast<int>(i)) : nullptr;
+}
+static int json_object_array_add(json_object *a, json_object *v) {
+    return cJSON_AddItemToArray(a, v);
+}
+static void json_object_array_put_idx(json_object *a, size_t i, json_object *v) {
+    cJSON_ReplaceItemInArray(a, static_cast<int>(i), v);
+}
+static void json_object_array_del_idx(json_object *a, size_t i, size_t count) {
+    while (count--)
+        cJSON_DeleteItemFromArray(a, static_cast<int>(i));
+}
+static json_object *json_object_new_array() { return cJSON_CreateArray(); }
+static json_object *json_object_new_object() { return cJSON_CreateObject(); }
+static json_object *json_object_new_string(const char *s) { return cJSON_CreateString(s); }
+static json_object *json_object_new_double(double x) { return cJSON_CreateNumber(x); }
+static json_object *json_object_new_uint64(uint64_t x) {
+    return cJSON_CreateNumber(static_cast<double>(x));
+}
+static json_object *json_object_new_boolean(int value) { return cJSON_CreateBool(value); }
+static double json_object_get_double(const json_object *o) { return o ? o->valuedouble : 0; }
+static uint64_t json_object_get_uint64(const json_object *o) {
+    return o ? static_cast<uint64_t>(o->valuedouble) : 0;
+}
+static const char *json_object_get_string(const json_object *o) {
+    return cJSON_IsString(o) && o->valuestring ? o->valuestring : "";
+}
+static void json_object_object_add(json_object *o, const char *k, json_object *v) {
+    if (cJSON_HasObjectItem(o, k))
+        cJSON_ReplaceItemInObjectCaseSensitive(o, k, v);
+    else
+        cJSON_AddItemToObject(o, k, v);
+}
+static void json_object_object_del(json_object *o, const char *k) {
+    if (o)
+        cJSON_DeleteItemFromObjectCaseSensitive(o, k);
+}
+static void json_object_put(json_object *o) { cJSON_Delete(o); }
 static uint32_t le32(const uint8_t *p) {
     return uint32_t(p[0]) | uint32_t(p[1]) << 8 | uint32_t(p[2]) << 16 | uint32_t(p[3]) << 24;
 }
@@ -41,14 +85,10 @@ static void writeFile(const std::string &p, const Bytes &b) {
         throw std::runtime_error("写入失败: " + p);
 }
 static json_object *get(json_object *o, const char *k) {
-    json_object *v = nullptr;
-    return o && json_object_object_get_ex(o, k, &v) ? v : nullptr;
+    return o ? cJSON_GetObjectItemCaseSensitive(o, k) : nullptr;
 }
 static void renameKey(json_object *o, const std::string &a, const std::string &b) {
-    json_object *v = nullptr;
-    if (json_object_object_get_ex(o, a.c_str(), &v)) {
-        json_object_get(v);
-        json_object_object_del(o, a.c_str());
+    if (auto *v = cJSON_DetachItemFromObjectCaseSensitive(o, a.c_str())) {
         json_object_object_add(o, b.c_str(), v);
     }
 }
@@ -57,7 +97,7 @@ static void renameArrayValues(json_object *a, const std::string &from, const std
         return;
     for (size_t i = 0; i < json_object_array_length(a); i++) {
         auto *v = json_object_array_get_idx(a, i);
-        if (json_object_get_type(v) == json_type_string && from == json_object_get_string(v))
+        if (cJSON_IsString(v) && from == json_object_get_string(v))
             json_object_array_put_idx(a, i, json_object_new_string(to.c_str()));
     }
 }
@@ -76,12 +116,10 @@ static double at(json_object *a, int i) {
 }
 
 static bool numericArray(json_object *a, size_t length) {
-    if (!a || json_object_get_type(a) != json_type_array ||
-        json_object_array_length(a) != length)
+    if (!cJSON_IsArray(a) || json_object_array_length(a) != length)
         return false;
     for (size_t i = 0; i < length; i++) {
-        auto type = json_object_get_type(json_object_array_get_idx(a, i));
-        if (type != json_type_int && type != json_type_double)
+        if (!cJSON_IsNumber(json_object_array_get_idx(a, i)))
             return false;
     }
     return true;
@@ -172,8 +210,9 @@ static void attributes(json_object *root, bool to10) {
             auto *a = get(p, "attributes");
             if (a) {
                 std::vector<std::pair<std::string, std::string>> rs;
-                json_object_object_foreach(a, k, v) {
-                    std::string s = k, t;
+                cJSON *v = nullptr;
+                cJSON_ArrayForEach(v, a) {
+                    std::string s = v->string, t;
                     if (to10 && s == "_OPACITY")
                         t = "KHR_gaussian_splatting:OPACITY";
                     else if (to10 && s == "_SCALE")
@@ -209,8 +248,8 @@ static void attributes(json_object *root, bool to10) {
             if (to10) {
                 auto *old = get(ex, "UWA_primitive_3DGS_compression");
                 if (old) {
-                    json_object_get(old);
-                    json_object_object_del(ex, "UWA_primitive_3DGS_compression");
+                    old = cJSON_DetachItemFromObjectCaseSensitive(
+                        ex, "UWA_primitive_3DGS_compression");
                     auto *k = json_object_new_object();
                     json_object_object_add(k, "colorSpace",
                                            json_object_new_string("srgb_rec709_display"));
@@ -227,7 +266,7 @@ static void attributes(json_object *root, bool to10) {
                 auto *k = get(ex, "KHR_gaussian_splatting"), *e = get(k, "extensions"),
                      *old = get(e, "UWA_gaussian_splatting_compression_EGSC");
                 if (old) {
-                    json_object_get(old);
+                    old = cJSON_Duplicate(old, true);
                     json_object_object_del(ex, "KHR_gaussian_splatting");
                     json_object_object_add(ex, "UWA_primitive_3DGS_compression", old);
                 }
@@ -272,8 +311,7 @@ static void cameras(json_object *root, bool to10) {
                 }
                 for (auto k : {"distanceRange", "target"})
                     if (auto *x = get(v, k)) {
-                        json_object_get(x);
-                        json_object_object_add(six, k, x);
+                        json_object_object_add(six, k, cJSON_Duplicate(x, true));
                     }
                 if (auto *b = get(v, "boundingBoxRange")) {
                     auto *x = get(b, "x"), *y = get(b, "y"), *z = get(b, "z");
@@ -317,7 +355,7 @@ static void cameras(json_object *root, bool to10) {
             // Only allocentricSixDof has a defined 0.4 representation.  Also
             // preserve an existing 0.4 extension instead of replacing it.
             if (!get(e, "UWA_viewing_parameters") && type &&
-                json_object_get_type(type) == json_type_string &&
+                cJSON_IsString(type) &&
                 std::string(json_object_get_string(type)) == "allocentricSixDof" && six) {
                 auto *o = json_object_new_object(), *az = get(six, "azimuthRange"),
                      *po = get(six, "polarRange");
@@ -335,8 +373,7 @@ static void cameras(json_object *root, bool to10) {
                 }
                 for (auto k : {"distanceRange", "target"})
                     if (auto *x = get(six, k)) {
-                        json_object_get(x);
-                        json_object_object_add(o, k, x);
+                        json_object_object_add(o, k, cJSON_Duplicate(x, true));
                     }
                 auto *rotation = modelNode ? get(modelNode, "rotation") : nullptr;
                 auto *g = numericArray(rotation, 4) ? quaternionToMatrix(rotation)
@@ -470,11 +507,8 @@ static Bytes convertGlb(const Bytes &in, bool to10, const Bytes &targetStream) {
     std::string s((char *)&in[20], jl);
     while (!s.empty() && (s.back() == ' ' || s.back() == '\0'))
         s.pop_back();
-    json_tokener *tok = json_tokener_new();
-    json_object *r = json_tokener_parse_ex(tok, s.data(), s.size());
-    auto err = json_tokener_get_error(tok);
-    json_tokener_free(tok);
-    if (!r || err != json_tokener_success)
+    json_object *r = cJSON_ParseWithLength(s.data(), s.size());
+    if (!r)
         throw std::runtime_error("JSON 解析失败");
     const size_t binChunkHeader = 20ull + jl;
     if (binChunkHeader + 8 > in.size() || le32(&in[binChunkHeader + 4]) != 0x004E4942) {
@@ -493,9 +527,13 @@ static Bytes convertGlb(const Bytes &in, bool to10, const Bytes &targetStream) {
     attributes(r, to10);
     cameras(r, to10);
     extLists(r, to10);
-    const char *out =
-        json_object_to_json_string_ext(r, JSON_C_TO_STRING_PRETTY | JSON_C_TO_STRING_NOSLASHESCAPE);
+    char *out = cJSON_Print(r);
+    if (!out) {
+        json_object_put(r);
+        throw std::runtime_error("JSON 序列化失败");
+    }
     std::string js = out;
+    cJSON_free(out);
     json_object_put(r);
     while (js.size() % 4)
         js.push_back(' ');
