@@ -1,4 +1,4 @@
-{"kind":"deck","id":"pr/at0keh","name":"Deck"}
+{"kind":"deck","id":"pr/ltv93d","name":"Deck"}
 {"kind":"layout","layoutId":"/ppt/slideMasters/slideMaster1.xml","name":"Master","type":"master"}
 {"kind":"layout","layoutId":"/ppt/slideLayouts/slideLayout1.xml","name":"Title Slide","type":"title"}
 {"kind":"slide","id":"sl/y90nupkv","slide":1,"title":"C++ · 3DGS · GLB / MP4","textShapes":4}
@@ -18,20 +18,20 @@
 {"kind":"textbox","id":"sh/r65knqtk","slide":2,"name":"scope-mp4-head","text":"输入是 MP4","textPreview":"输入是 MP4","textChars":7,"textLines":1,"bbox":[482,245,316,38]}
 {"kind":"textbox","id":"sh/q5wjelsz","slide":2,"name":"scope-mp4-body","text":"扫描顶层 box\n→ 找到 meta / idat\n→ 提取嵌入 GLB","textPreview":"扫描顶层 box | → 找到 meta / idat | → 提取嵌入 GLB","textChars":36,"textLines":3,"bbox":[482,295,316,170]}
 {"kind":"shape","id":"sh/ove9o7yd","slide":2,"name":"scope-output-box","bbox":[878,225,360,260]}
-{"kind":"textbox","id":"sh/9wnqhczy","slide":2,"name":"scope-output-head","text":"外部码流地址","textPreview":"外部码流地址","textChars":6,"textLines":1,"bbox":[900,245,316,38]}
-{"kind":"textbox","id":"sh/mtwrmxg7","slide":2,"name":"scope-output-body","text":"--to 1.0：--stream target.egsc\n--to 0.4：--stream target.bin\n支持相对路径或绝对路径","textPreview":"--to 1.0：--stream target.egsc | --to 0.4：--stream target.bin | 支持相对路径或绝对路径","textChars":70,"textLines":3,"bbox":[900,295,316,170]}
+{"kind":"textbox","id":"sh/9wnqhczy","slide":2,"name":"scope-output-head","text":"命令行参数","textPreview":"命令行参数","textChars":5,"textLines":1,"bbox":[900,245,316,38]}
+{"kind":"textbox","id":"sh/mtwrmxg7","slide":2,"name":"scope-output-body","text":"--to: 0.4 | 1.0\n--stream: target.bin | target.egsc\n--input / --output: .glb 或 .mp4 路径\n四组选项顺序不限","textPreview":"--to: 0.4 | 1.0 | --stream: target.bin | target.egsc | --input / --output: .glb 或 .mp4 路径 | 四组选项顺序不限","textChars":94,"textLines":4,"bbox":[900,295,316,170]}
 {"kind":"textbox","id":"sh/nu58f2hs","slide":2,"name":"scope-bound","text":"转换码流与容器索引；不重新计算 accessor 点数。","textPreview":"转换码流与容器索引；不重新计算 accessor 点数。","textChars":28,"textLines":1,"bbox":[42,555,1196,48]}
 {"kind":"notes","id":"nt/hwbqtkby","slide":2,"text":"[Sources]\n- /Users/xinz/Desktop/ONE/work/project/Huawei/格式转换/gs_format_converter.cpp"}
 {"kind":"slide","id":"sl/ofy9wn61","slide":3,"title":"主流程把“容器处理”与“语义转换”解耦","textShapes":13}
 {"kind":"textbox","id":"sh/14ryd8fq","slide":3,"name":"title-3","text":"主流程把“容器处理”与“语义转换”解耦","textPreview":"主流程把“容器处理”与“语义转换”解耦","textChars":19,"textLines":1,"bbox":[42,34,1130,68]}
 {"kind":"textbox","id":"sh/cza94vmx","slide":3,"name":"page-3","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1178,656,60,22]}
-{"kind":"shape","id":"sh/k3m1g7yp","slide":3,"name":"flow-arrow-0","bbox":[212,304,66,0]}
-{"kind":"shape","id":"sh/z2d07mh4","slide":3,"name":"flow-arrow-1","bbox":[448,304,66,0]}
-{"kind":"shape","id":"sh/y14jehgj","slide":3,"name":"flow-arrow-2","bbox":[684,304,66,0]}
-{"kind":"shape","id":"sh/x0vi5czy","slide":3,"name":"flow-arrow-3","bbox":[920,304,66,0]}
+{"kind":"shape","id":"sh/dgfyls3q","slide":3,"name":"flow-arrow-0","bbox":[212,304,66,0]}
+{"kind":"shape","id":"sh/6xkvytkb","slide":3,"name":"flow-arrow-1","bbox":[448,304,66,0]}
+{"kind":"shape","id":"sh/7idw7ylg","slide":3,"name":"flow-arrow-2","bbox":[684,304,66,0]}
+{"kind":"shape","id":"sh/9cjidwny","slide":3,"name":"flow-arrow-3","bbox":[920,304,66,0]}
 {"kind":"shape","id":"sh/pcjqtg36","slide":3,"name":"flow-0","bbox":[42,240,194,174]}
 {"kind":"textbox","id":"sh/m5cra54z","slide":3,"name":"flow-title-0","text":"解析参数","textPreview":"解析参数","textChars":4,"textLines":1,"bbox":[58,268,162,34]}
-{"kind":"textbox","id":"sh/n6ls3alk","slide":3,"name":"flow-desc-0","text":"--to / --stream","textPreview":"--to / --stream","textChars":15,"textLines":1,"bbox":[58,329,162,55]}
+{"kind":"textbox","id":"sh/n6ls3alk","slide":3,"name":"flow-desc-0","text":"--to / --stream\n--input / --output","textPreview":"--to / --stream | --input / --output","textChars":34,"textLines":2,"bbox":[58,329,162,55]}
 {"kind":"shape","id":"sh/n2l4fq98","slide":3,"name":"flow-1","bbox":[278,240,194,174]}
 {"kind":"textbox","id":"sh/m1c3mlsn","slide":3,"name":"flow-title-1","text":"读取外部码流","textPreview":"读取外部码流","textChars":6,"textLines":1,"bbox":[294,268,162,34]}
 {"kind":"textbox","id":"sh/943mhgre","slide":3,"name":"flow-desc-1","text":"用户提供的路径","textPreview":"用户提供的路径","textChars":7,"textLines":1,"bbox":[294,329,162,55]}
@@ -58,8 +58,8 @@
 {"kind":"shape","id":"sh/ih8ju9sn","slide":4,"name":"glb-rebuild-box","bbox":[888,170,350,330]}
 {"kind":"textbox","id":"sh/kbm987y5","slide":4,"name":"glb-rebuild-head","text":"③ 对齐与重建","textPreview":"③ 对齐与重建","textChars":7,"textLines":1,"bbox":[910,190,306,38]}
 {"kind":"textbox","id":"sh/5cva1cfq","slide":4,"name":"glb-rebuild-body","text":"目标码流补零到 4 字节\n重建 BIN 与 JSON chunk\n写回 chunk / GLB 总长度","textPreview":"目标码流补零到 4 字节 | 重建 BIN 与 JSON chunk | 写回 chunk / GLB 总长度","textChars":51,"textLines":3,"bbox":[910,240,306,240]}
-{"kind":"shape","id":"sh/fm5c3q54","slide":4,"name":"glb-a1","bbox":[392,335,73,0]}
-{"kind":"shape","id":"sh/elwba54j","slide":4,"name":"glb-a2","bbox":[815,335,73,0]}
+{"kind":"shape","id":"sh/10zehwna","slide":4,"name":"glb-a1","bbox":[392,335,73,0]}
+{"kind":"shape","id":"sh/0zqd8rmp","slide":4,"name":"glb-a2","bbox":[815,335,73,0]}
 {"kind":"textbox","id":"sh/w72947yt","slide":4,"name":"glb-invariant","text":"不变量","textPreview":"不变量","textChars":3,"textLines":1,"bbox":[42,555,160,35]}
 {"kind":"textbox","id":"sh/x8vaxsfe","slide":4,"name":"glb-invariant-text","text":"后续 bufferView 整体平移；byteLength、byteOffset 与 buffer 总长度一致。","textPreview":"后续 bufferView 整体平移；byteLength、byteOffset 与 buffer 总长度一致。","textChars":56,"textLines":1,"bbox":[210,555,980,35]}
 {"kind":"notes","id":"nt/jyx0ra1s","slide":4,"text":"[Sources]\n- /Users/xinz/Desktop/ONE/work/project/Huawei/格式转换/gs_format_converter.cpp"}
@@ -72,21 +72,21 @@
 {"kind":"shape","id":"sh/l4bupwny","slide":5,"name":"map-r-0","bbox":[726,210,512,86]}
 {"kind":"textbox","id":"sh/032tgr6d","slide":5,"name":"map-lt-0","text":"_OPACITY / _SCALE / _ROTATION","textPreview":"_OPACITY / _SCALE / _ROTATION","textChars":29,"textLines":1,"bbox":[60,230,434,48]}
 {"kind":"textbox","id":"sh/n6dcr65o","slide":5,"name":"map-rt-0","text":"KHR_gaussian_splatting:OPACITY / SCALE / ROTATION","textPreview":"KHR_gaussian_splatting:OPACITY / SCALE / ROTATION","textChars":49,"textLines":1,"bbox":[744,230,476,48]}
-{"kind":"shape","id":"sh/bqx0fe9g","slide":5,"name":"map-a-0","bbox":[530,253,176,0]}
+{"kind":"shape","id":"sh/q1o3a143","slide":5,"name":"map-a-0","bbox":[530,253,176,0]}
 {"kind":"shape","id":"sh/w32dkbuh","slide":5,"name":"map-l-1","bbox":[42,335,470,86]}
 {"kind":"shape","id":"sh/x4vedgvm","slide":5,"name":"map-r-1","bbox":[726,335,512,86]}
 {"kind":"textbox","id":"sh/ahkvi1cb","slide":5,"name":"map-lt-1","text":"_SPHERICAL_HARMONICS_DEGREE_d_COEFFICIENT_i","textPreview":"_SPHERICAL_HARMONICS_DEGREE_d_COEFFICIENT_i","textChars":43,"textLines":1,"bbox":[60,355,434,48]}
 {"kind":"textbox","id":"sh/v2twb6dw","slide":5,"name":"map-rt-1","text":"KHR_gaussian_splatting:SH_DEGREE_d_COEF_i","textPreview":"KHR_gaussian_splatting:SH_DEGREE_d_COEF_i","textChars":41,"textLines":1,"bbox":[744,355,476,48]}
-{"kind":"shape","id":"sh/nexg3epo","slide":5,"name":"map-a-1","bbox":[530,378,176,0]}
+{"kind":"shape","id":"sh/3yxkfm5s","slide":5,"name":"map-a-1","bbox":[530,378,176,0]}
 {"kind":"shape","id":"sh/58vehgvy","slide":5,"name":"map-l-2","bbox":[42,460,470,86]}
 {"kind":"shape","id":"sh/i54fmlc7","slide":5,"name":"map-r-2","bbox":[726,460,512,86]}
 {"kind":"textbox","id":"sh/j6dwfqds","slide":5,"name":"map-lt-2","text":"UWA_primitive_3DGS_compression","textPreview":"UWA_primitive_3DGS_compression","textChars":30,"textLines":1,"bbox":[60,480,434,48]}
 {"kind":"textbox","id":"sh/sb6xsvu9","slide":5,"name":"map-rt-2","text":"KHR_gaussian_splatting → extensions → UWA_…_EGSC","textPreview":"KHR_gaussian_splatting → extensions → UWA_…_EGSC","textChars":48,"textLines":1,"bbox":[744,480,476,48]}
-{"kind":"shape","id":"sh/cnmh4z61","slide":5,"name":"map-a-2","bbox":[530,503,176,0]}
+{"kind":"shape","id":"sh/lsvmpc7e","slide":5,"name":"map-a-2","bbox":[530,503,176,0]}
 {"kind":"textbox","id":"sh/hgrmpwj2","slide":5,"name":"map-footer","text":"扩展声明同步改名；JSON 序列化关闭斜杠转义，pointer 直接写成 /cameras/…/yfov。","textPreview":"扩展声明同步改名；JSON 序列化关闭斜杠转义，pointer 直接写成 /cameras/…/yfov。","textChars":53,"textLines":1,"bbox":[42,612,1160,36]}
 {"kind":"notes","id":"nt/i107q5of","slide":5,"text":"[Sources]\n- /Users/xinz/Desktop/ONE/work/project/Huawei/格式转换/gs_format_converter.cpp"}
-{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"观看约束转换尊重已有目标扩展","textShapes":9}
-{"kind":"textbox","id":"sh/u1kbu1ov","slide":6,"name":"title-6","text":"观看约束转换尊重已有目标扩展","textPreview":"观看约束转换尊重已有目标扩展","textChars":14,"textLines":1,"bbox":[42,34,1130,68]}
+{"kind":"slide","id":"sl/x8f69ofe","slide":6,"title":"观看约束转换同步迁移模型坐标系旋转","textShapes":9}
+{"kind":"textbox","id":"sh/u1kbu1ov","slide":6,"name":"title-6","text":"观看约束转换同步迁移模型坐标系旋转","textPreview":"观看约束转换同步迁移模型坐标系旋转","textChars":17,"textLines":1,"bbox":[42,34,1130,68]}
 {"kind":"textbox","id":"sh/yhg7epsj","slide":6,"name":"page-6","text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1178,656,60,22]}
 {"kind":"shape","id":"sh/zi98nu94","slide":6,"name":"cam-angle-box","bbox":[42,160,350,360]}
 {"kind":"textbox","id":"sh/87ipkzal","slide":6,"name":"cam-angle-head","text":"角度范围","textPreview":"角度范围","textChars":4,"textLines":1,"bbox":[64,180,306,38]}
@@ -95,16 +95,16 @@
 {"kind":"textbox","id":"sh/7m98ru9g","slide":6,"name":"cam-box-head","text":"包围盒","textPreview":"包围盒","textChars":3,"textLines":1,"bbox":[487,180,306,38]}
 {"kind":"textbox","id":"sh/oryp8fah","slide":6,"name":"cam-box-body","text":"center = (min + max) / 2\nsize = max − min\n\n反向：\nmin/max = center ∓ size / 2","textPreview":"center = (min + max) / 2 | size = max − min |  | 反向： | min/max = center ∓ size / 2","textChars":74,"textLines":5,"bbox":[487,230,306,270]}
 {"kind":"shape","id":"sh/pc76hkr2","slide":6,"name":"cam-ext-box","bbox":[888,160,350,360]}
-{"kind":"textbox","id":"sh/h4bupgn6","slide":6,"name":"cam-ext-head","text":"相机扩展","textPreview":"相机扩展","textChars":4,"textLines":1,"bbox":[910,180,306,38]}
-{"kind":"textbox","id":"sh/w32twb6l","slide":6,"name":"cam-ext-body","text":"双扩展共存时：\n保留目标格式扩展\n不转换、不覆盖\n\nconstraints → parameters：\n仅 type = allocentricSixDof","textPreview":"双扩展共存时： | 保留目标格式扩展 | 不转换、不覆盖 |  | constraints → parameters： | 仅 type = allocentricSixDof","textChars":78,"textLines":6,"bbox":[910,230,306,270]}
-{"kind":"textbox","id":"sh/v2tcn650","slide":6,"name":"cam-note","text":"只有 allocentricSixDof 可转为 UWA_viewing_parameters；未转换的扩展声明保持不变。","textPreview":"只有 allocentricSixDof 可转为 UWA_viewing_parameters；未转换的扩展声明保持不变。","textChars":61,"textLines":1,"bbox":[42,575,1196,36]}
+{"kind":"textbox","id":"sh/h4bupgn6","slide":6,"name":"cam-ext-head","text":"旋转与兼容","textPreview":"旋转与兼容","textChars":5,"textLines":1,"bbox":[910,180,306,38]}
+{"kind":"textbox","id":"sh/w32twb6l","slide":6,"name":"cam-ext-body","text":"0.4 → 1.0：\n3×3 行优先矩阵\n→ nodes[0].rotation (xyzw)\n\n1.0 → 0.4：\nrotation → 3×3；缺省用单位矩阵","textPreview":"0.4 → 1.0： | 3×3 行优先矩阵 | → nodes[0].rotation (xyzw) |  | 1.0 → 0.4： | rotation → 3×3；缺省用单位矩阵","textChars":82,"textLines":6,"bbox":[910,230,306,270]}
+{"kind":"textbox","id":"sh/v2tcn650","slide":6,"name":"cam-note","text":"0.4 → 1.0 同时保留 UWA_viewing_parameters 与 UWA_viewing_constraints，并同步写入扩展声明。","textPreview":"0.4 → 1.0 同时保留 UWA_viewing_parameters 与 UWA_viewing_constraints，并同步写入扩展声明。","textChars":74,"textLines":1,"bbox":[42,575,1196,36]}
 {"kind":"notes","id":"nt/x8f69ofe","slide":6,"text":"[Sources]\n- /Users/xinz/Desktop/ONE/work/project/Huawei/格式转换/gs_format_converter.cpp"}
 {"kind":"slide","id":"sl/gnmp4jqx","slide":7,"title":"MP4 转换只触碰顶层 meta 中的嵌入 GLB","textShapes":12}
 {"kind":"textbox","id":"sh/id4ju1oz","slide":7,"name":"title-7","text":"MP4 转换只触碰顶层 meta 中的嵌入 GLB","textPreview":"MP4 转换只触碰顶层 meta 中的嵌入 GLB","textChars":25,"textLines":1,"bbox":[42,34,1130,68]}
 {"kind":"textbox","id":"sh/cb2tkvap","slide":7,"name":"page-7","text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1178,656,60,22]}
-{"kind":"shape","id":"sh/d4f2t0nm","slide":7,"name":"mp4-a1","bbox":[272,293,84,0]}
-{"kind":"shape","id":"sh/e5o32lor","slide":7,"name":"mp4-a2","bbox":[584,293,84,0]}
-{"kind":"shape","id":"sh/f6xkvq5c","slide":7,"name":"mp4-a3","bbox":[896,293,84,0]}
+{"kind":"shape","id":"sh/cf2twbu1","slide":7,"name":"mp4-a1","bbox":[272,293,84,0]}
+{"kind":"shape","id":"sh/ripsrmtc","slide":7,"name":"mp4-a2","bbox":[584,293,84,0]}
+{"kind":"shape","id":"sh/6hgbihcr","slide":7,"name":"mp4-a3","bbox":[896,293,84,0]}
 {"kind":"shape","id":"sh/kzmdova1","slide":7,"name":"mp4-scan-box","bbox":[42,215,230,230]}
 {"kind":"textbox","id":"sh/l0vuh0rm","slide":7,"name":"mp4-scan-head","text":"扫描 box","textPreview":"扫描 box","textChars":6,"textLines":1,"bbox":[64,235,186,38]}
 {"kind":"textbox","id":"sh/eh0ba1sr","slide":7,"name":"mp4-scan-body","text":"boxAt() 解析大小与类型\n支持普通 / large size box","textPreview":"boxAt() 解析大小与类型 | 支持普通 / large size box","textChars":37,"textLines":2,"bbox":[64,285,186,140]}
@@ -120,11 +120,11 @@
 {"kind":"textbox","id":"sh/f2d0b6lc","slide":7,"name":"mp4-safe","text":"媒体数据保持不变","textPreview":"媒体数据保持不变","textChars":8,"textLines":1,"bbox":[42,535,330,44]}
 {"kind":"textbox","id":"sh/eh4jil4r","slide":7,"name":"mp4-safe2","text":"meta 之前的视频 / 音频字节直接复制；新旧 GLB 大小差用于修正 meta box。","textPreview":"meta 之前的视频 / 音频字节直接复制；新旧 GLB 大小差用于修正 meta box。","textChars":46,"textLines":1,"bbox":[375,535,820,58]}
 {"kind":"notes","id":"nt/gnmp4jqx","slide":7,"text":"[Sources]\n- /Users/xinz/Desktop/ONE/work/project/Huawei/格式转换/gs_format_converter.cpp"}
-{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"CMake 生成 Makefile，make 完成编译","textShapes":13}
-{"kind":"textbox","id":"sh/1k7edwv2","slide":8,"name":"title-8","text":"CMake 生成 Makefile，make 完成编译","textPreview":"CMake 生成 Makefile，make 完成编译","textChars":27,"textLines":1,"bbox":[42,34,1130,68]}
+{"kind":"slide","id":"sl/fu1gfa1s","slide":8,"title":"运行时显式指定输入与输出","textShapes":13}
+{"kind":"textbox","id":"sh/1k7edwv2","slide":8,"name":"title-8","text":"运行时显式指定输入与输出","textPreview":"运行时显式指定输入与输出","textChars":12,"textLines":1,"bbox":[42,34,1130,68]}
 {"kind":"textbox","id":"sh/18byd4zy","slide":8,"name":"page-8","text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1178,656,60,22]}
 {"kind":"shape","id":"sh/g72x4zyd","slide":8,"name":"cmd-bg","bbox":[42,145,1196,145]}
-{"kind":"textbox","id":"sh/ri9g7uhw","slide":8,"name":"cmd","text":"mkdir -p build && cd build && cmake .. && make -j","textPreview":"mkdir -p build && cd build && cmake .. && make -j","textChars":49,"textLines":1,"bbox":[72,194,1136,50]}
+{"kind":"textbox","id":"sh/ri9g7uhw","slide":8,"name":"cmd","text":"./build/gs_format_converter --to 1.0 --stream t.egsc --input i.glb --output o.glb","textPreview":"./build/gs_format_converter --to 1.0 --stream t.egsc --input i.glb --output o.glb","textChars":81,"textLines":1,"bbox":[72,194,1136,50]}
 {"kind":"textbox","id":"sh/6h0fypgb","slide":8,"name":"check-n-0","text":"01","textPreview":"01","textChars":2,"textLines":1,"bbox":[42,360,70,45]}
 {"kind":"textbox","id":"sh/tkby9kzm","slide":8,"name":"check-t-0","text":"GLB","textPreview":"GLB","textChars":3,"textLines":1,"bbox":[42,420,360,35]}
 {"kind":"textbox","id":"sh/sjix0zy1","slide":8,"name":"check-b-0","text":"目标码流逐字节匹配；末尾补零至四字节边界","textPreview":"目标码流逐字节匹配；末尾补零至四字节边界","textChars":20,"textLines":1,"bbox":[42,472,350,75]}

@@ -101,6 +101,16 @@ static void renameArrayValues(json_object *a, const std::string &from, const std
             json_object_array_put_idx(a, i, json_object_new_string(to.c_str()));
     }
 }
+static void appendArrayValueIfMissing(json_object *a, const std::string &value) {
+    if (!a)
+        return;
+    for (size_t i = 0; i < json_object_array_length(a); i++) {
+        auto *v = json_object_array_get_idx(a, i);
+        if (cJSON_IsString(v) && value == json_object_get_string(v))
+            return;
+    }
+    json_object_array_add(a, json_object_new_string(value.c_str()));
+}
 static json_object *num(double x) {
     return json_object_new_double(x);
 }
@@ -290,9 +300,8 @@ static void cameras(json_object *root, bool to10) {
             e = json_object_new_object(), json_object_object_add(n, "extensions", e);
         if (to10) {
             auto *v = get(e, "UWA_viewing_parameters");
-            // A file may already carry the 1.0 extension alongside the 0.4 one.
-            // In that case the target extension is authoritative and must not be
-            // overwritten by a value converted from the legacy extension.
+            // Keep the 0.4 viewing parameters in the 1.0 result for backward
+            // compatibility. If constraints already exist, they are authoritative.
             if (v && !get(e, "UWA_viewing_constraints")) {
                 auto *m = json_object_new_object(), *modes = json_object_new_array(),
                      *mode = json_object_new_object(), *six = json_object_new_object();
@@ -334,7 +343,6 @@ static void cameras(json_object *root, bool to10) {
                 auto *gravity = get(v, "gravityCoordinateSystem");
                 if (modelNode && numericArray(gravity, 9) && !isIdentityMatrix(gravity))
                     json_object_object_add(modelNode, "rotation", matrixToQuaternion(gravity));
-                json_object_object_del(e, "UWA_viewing_parameters");
                 json_object_object_add(e, "UWA_viewing_constraints", m);
             }
             if (!get(e, "UWA_user_camera_label")) {
@@ -419,9 +427,9 @@ static void extLists(json_object *r, bool t) {
         for (auto *a : {u, q}) {
             renameArrayValues(a, "UWA_primitive_3DGS_compression",
                               "UWA_gaussian_splatting_compression_EGSC");
-            // Keep the legacy declaration when its extension was deliberately
-            // preserved because a target extension already existed.
-            if (!hasCameraExtension(r, "UWA_viewing_parameters"))
+            if (hasCameraExtension(r, "UWA_viewing_parameters"))
+                appendArrayValueIfMissing(a, "UWA_viewing_constraints");
+            else
                 renameArrayValues(a, "UWA_viewing_parameters", "UWA_viewing_constraints");
         }
         if (u) {
